@@ -12,15 +12,15 @@ class Button extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-              color: color,
-              child: Center(
-                child: Text(
-                  buttonText,
-                  style: TextStyle(color: textcolor),
-                ),
-              ))),
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          color: color,
+          child: Center(
+            child: Text(buttonText,
+                style: TextStyle(color: textcolor, fontSize: 20)),
+          ),
+        ),
+      ),
     );
   }
 }

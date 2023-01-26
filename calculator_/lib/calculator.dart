@@ -18,7 +18,7 @@ class _CalculatorState extends State<Calculator> {
     '9',
     '8',
     '7',
-    'X',
+    '*',
     '6',
     '5',
     '4',
@@ -27,8 +27,8 @@ class _CalculatorState extends State<Calculator> {
     '2',
     '1',
     '+',
-    '0',
     '.',
+    '0',
     'ANS',
     '=',
   ];
@@ -39,19 +39,23 @@ class _CalculatorState extends State<Calculator> {
         backgroundColor: CalculatorColor.backgroundcolor,
         body: Column(
           children: [
-            Expanded(child: Container(), flex: 1),
+            Expanded(flex: 1, child: Container()),
             Expanded(
               flex: 2,
               child: Container(
                 child: GridView.builder(
                   itemCount: buttons.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4),
                   itemBuilder: (BuildContext context, int index) {
                     return Button(
                       buttonText: buttons[index],
-                      color: CalculatorColor.backgroundcolor1,
-                      textcolor: CalculatorColor.textcolor,
+                      color: isOperator(buttons[index])
+                          ? CalculatorColor.backgroundcolor1
+                          : CalculatorColor.operator,
+                      textcolor: isOperator(buttons[index])
+                          ? CalculatorColor.textcolor
+                          : CalculatorColor.backgroundcolor1,
                     );
                   },
                 ),
@@ -60,10 +64,19 @@ class _CalculatorState extends State<Calculator> {
           ],
         ));
   }
+
+  bool isOperator(String x) {
+    if (x == "-" || x == '+' || x == '*' || x == "/" || x == '%' || x == '=') {
+      return true;
+    }
+    return false;
+  }
 }
 
 class CalculatorColor {
   static final backgroundcolor = Colors.deepPurple[100];
-  static final backgroundcolor1 = Colors.deepPurple;
-  static final textcolor = Colors.white;
+  static const backgroundcolor1 = Colors.deepPurple;
+  static final operator = Colors.deepPurple[50];
+  static const black = Colors.black;
+  static const textcolor = Colors.white;
 }
