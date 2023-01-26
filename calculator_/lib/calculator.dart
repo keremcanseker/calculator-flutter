@@ -10,6 +10,29 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
+  final List<String> buttons = [
+    'C',
+    'DEL',
+    '%',
+    '/',
+    '9',
+    '8',
+    '7',
+    'X',
+    '6',
+    '5',
+    '4',
+    '-',
+    '3',
+    '2',
+    '1',
+    '+',
+    '0',
+    '.',
+    'ANS',
+    '=',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,14 +41,22 @@ class _CalculatorState extends State<Calculator> {
           children: [
             Expanded(child: Container(), flex: 1),
             Expanded(
-              child: Container(
-                child: Button(
-                    color: Colors.deepOrange,
-                    buttonText: "haha",
-                    textcolor: Colors.white),
-              ),
               flex: 2,
-            ),
+              child: Container(
+                child: GridView.builder(
+                  itemCount: buttons.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Button(
+                      buttonText: buttons[index],
+                      color: CalculatorColor.backgroundcolor1,
+                      textcolor: CalculatorColor.textcolor,
+                    );
+                  },
+                ),
+              ),
+            )
           ],
         ));
   }
@@ -33,4 +64,6 @@ class _CalculatorState extends State<Calculator> {
 
 class CalculatorColor {
   static final backgroundcolor = Colors.deepPurple[100];
+  static final backgroundcolor1 = Colors.deepPurple;
+  static final textcolor = Colors.white;
 }
