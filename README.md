@@ -1,1 +1,1 @@
-# culcolator-flutter
+# simple calculator written with flutter
