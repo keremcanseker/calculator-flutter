@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'buttons.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -32,6 +32,8 @@ class _CalculatorState extends State<Calculator> {
     'ANS',
     '=',
   ];
+  var userQuestion = '';
+  var userAnswer = '';
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +41,56 @@ class _CalculatorState extends State<Calculator> {
         backgroundColor: CalculatorColor.backgroundcolor,
         body: Column(
           children: [
-            Expanded(flex: 1, child: Container()),
+            Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(height: 40),
+                    Container(
+                        padding: EdgeInsets.all(20),
+                        alignment: Alignment.centerLeft,
+                        child: Text(userQuestion,
+                            style: const TextStyle(fontSize: 20))),
+                    Container(
+                        padding: EdgeInsets.all(20),
+                        alignment: Alignment.centerRight,
+                        child: Text(userAnswer,
+                            style: const TextStyle(fontSize: 20))),
+                  ],
+                )),
             Expanded(
               flex: 2,
-              child: Container(
-                child: GridView.builder(
-                  itemCount: buttons.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Button(
-                      buttonText: buttons[index],
-                      color: isOperator(buttons[index])
-                          ? CalculatorColor.backgroundcolor1
-                          : CalculatorColor.operator,
-                      textcolor: isOperator(buttons[index])
-                          ? CalculatorColor.textcolor
-                          : CalculatorColor.backgroundcolor1,
-                    );
-                  },
-                ),
+              child: GridView.builder(
+                itemCount: buttons.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4),
+                itemBuilder: (BuildContext context, int index) {
+                  return Button(
+                    buttonTapped: () {
+                      setState(() {
+                        if (index == 0) {
+                          userQuestion = "";
+                          userAnswer = '';
+                        } else if (index == 1) {
+                          userQuestion = userQuestion.substring(
+                              0, userQuestion.length - 1);
+                        } else if (index == buttons.length - 1) {
+                          pressEqual();
+                        } else {
+                          userQuestion += buttons[index];
+                        }
+                      });
+                    },
+                    buttonText: buttons[index],
+                    color: isOperator(buttons[index])
+                        ? CalculatorColor.backgroundcolor1
+                        : CalculatorColor.operator,
+                    textcolor: isOperator(buttons[index])
+                        ? CalculatorColor.textcolor
+                        : CalculatorColor.backgroundcolor1,
+                  );
+                },
               ),
             )
           ],
@@ -70,6 +102,15 @@ class _CalculatorState extends State<Calculator> {
       return true;
     }
     return false;
+  }
+
+  void pressEqual() {
+    String finalQuestion = userQuestion;
+    Parser p = Parser();
+    Expression exp = p.parse(finalQuestion);
+    ContextModel cm = ContextModel();
+    double eval = exp.evaluate(EvaluationType.REAL, cm);
+    userAnswer = eval.toString();
   }
 }
 
