@@ -51,12 +51,12 @@ class _CalculatorState extends State<Calculator> {
                         padding: EdgeInsets.all(20),
                         alignment: Alignment.centerLeft,
                         child: Text(userQuestion,
-                            style: const TextStyle(fontSize: 20))),
+                            maxLines: 2, style: const TextStyle(fontSize: 30))),
                     Container(
                         padding: EdgeInsets.all(20),
                         alignment: Alignment.centerRight,
                         child: Text(userAnswer,
-                            style: const TextStyle(fontSize: 20))),
+                            style: const TextStyle(fontSize: 40))),
                   ],
                 )),
             Expanded(
@@ -83,9 +83,13 @@ class _CalculatorState extends State<Calculator> {
                       });
                     },
                     buttonText: buttons[index],
-                    color: isOperator(buttons[index])
-                        ? CalculatorColor.backgroundcolor1
-                        : CalculatorColor.operator,
+                    color: isClear(buttons[index])
+                        ? Colors.green
+                        : isDel(buttons[index])
+                            ? Colors.red
+                            : isOperator(buttons[index])
+                                ? CalculatorColor.backgroundcolor1
+                                : CalculatorColor.operator,
                     textcolor: isOperator(buttons[index])
                         ? CalculatorColor.textcolor
                         : CalculatorColor.backgroundcolor1,
@@ -95,6 +99,20 @@ class _CalculatorState extends State<Calculator> {
             )
           ],
         ));
+  }
+
+  bool isClear(String s) {
+    if (s == 'C') {
+      return true;
+    }
+    return false;
+  }
+
+  bool isDel(String s) {
+    if (s == 'DEL') {
+      return true;
+    }
+    return false;
   }
 
   bool isOperator(String x) {

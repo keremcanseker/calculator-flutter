@@ -24,7 +24,7 @@ class Button extends StatelessWidget {
             color: color,
             child: Center(
               child: Text(buttonText,
-                  style: TextStyle(color: textcolor, fontSize: 20)),
+                  style: TextStyle(color: textcolor, fontSize: 30)),
             ),
           ),
         ),
